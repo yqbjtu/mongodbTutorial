@@ -1,0 +1,12 @@
+2018-03-06 15:58:06,776 ERROR main MongoDBConn - Will connect to mongo db by host192.168.81.140 port27017
+2018-03-06 15:58:08,027 INFO  main cluster - Cluster created with settings {hosts=[192.168.81.140:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2018-03-06 15:58:08,093 INFO  main MongoDBConn - Connect to database 'db1' successfully.
+2018-03-06 15:58:08,102 INFO  main Operation - Insert a new Document to collection 'db1.col1'.
+2018-03-06 15:58:08,113 INFO  main cluster - No server chosen by WritableServerSelector from cluster description ClusterDescription{type=UNKNOWN, connectionMode=SINGLE, serverDescriptions=[ServerDescription{address=192.168.81.140:27017, type=UNKNOWN, state=CONNECTING}]}. Waiting for 30000 ms before timing out
+2018-03-06 15:58:08,115 INFO  cluster-ClusterId{value='5a9e4a101602ef372c199aef', description='null'}-192.168.81.140:27017 connection - Opened connection [connectionId{localValue:1, serverValue:28}] to 192.168.81.140:27017
+2018-03-06 15:58:08,117 INFO  cluster-ClusterId{value='5a9e4a101602ef372c199aef', description='null'}-192.168.81.140:27017 cluster - Monitor thread successfully connected to server with description ServerDescription{address=192.168.81.140:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 7]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, roundTripTimeNanos=647702}
+2018-03-06 15:58:08,122 INFO  main connection - Opened connection [connectionId{localValue:2, serverValue:29}] to 192.168.81.140:27017
+2018-03-06 15:58:08,157 INFO  main Operation - There are 3 in collection 'db1.col1'.
+2018-03-06 15:58:08,170 INFO  main Operation - There are 2 in collection 'db1.col1'.
+2018-03-06 15:58:08,171 INFO  main connection - Closed connection [connectionId{localValue:2, serverValue:29}] to 192.168.81.140:27017 because the pool has been closed.
+2018-03-06 15:58:08,173 INFO  main MongoDBConn - CloseMongoClient successfully
