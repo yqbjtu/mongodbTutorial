@@ -1,12 +1,41 @@
-2018-03-06 15:58:06,776 ERROR main MongoDBConn - Will connect to mongo db by host192.168.81.140 port27017
-2018-03-06 15:58:08,027 INFO  main cluster - Cluster created with settings {hosts=[192.168.81.140:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
-2018-03-06 15:58:08,093 INFO  main MongoDBConn - Connect to database 'db1' successfully.
-2018-03-06 15:58:08,102 INFO  main Operation - Insert a new Document to collection 'db1.col1'.
-2018-03-06 15:58:08,113 INFO  main cluster - No server chosen by WritableServerSelector from cluster description ClusterDescription{type=UNKNOWN, connectionMode=SINGLE, serverDescriptions=[ServerDescription{address=192.168.81.140:27017, type=UNKNOWN, state=CONNECTING}]}. Waiting for 30000 ms before timing out
-2018-03-06 15:58:08,115 INFO  cluster-ClusterId{value='5a9e4a101602ef372c199aef', description='null'}-192.168.81.140:27017 connection - Opened connection [connectionId{localValue:1, serverValue:28}] to 192.168.81.140:27017
-2018-03-06 15:58:08,117 INFO  cluster-ClusterId{value='5a9e4a101602ef372c199aef', description='null'}-192.168.81.140:27017 cluster - Monitor thread successfully connected to server with description ServerDescription{address=192.168.81.140:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 7]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, roundTripTimeNanos=647702}
-2018-03-06 15:58:08,122 INFO  main connection - Opened connection [connectionId{localValue:2, serverValue:29}] to 192.168.81.140:27017
-2018-03-06 15:58:08,157 INFO  main Operation - There are 3 in collection 'db1.col1'.
-2018-03-06 15:58:08,170 INFO  main Operation - There are 2 in collection 'db1.col1'.
-2018-03-06 15:58:08,171 INFO  main connection - Closed connection [connectionId{localValue:2, serverValue:29}] to 192.168.81.140:27017 because the pool has been closed.
-2018-03-06 15:58:08,173 INFO  main MongoDBConn - CloseMongoClient successfully
+2018-03-06 17:08:47,596 INFO  main MongoDBConn - Will connect to mongo db by host192.168.81.140 port27017
+2018-03-06 17:08:48,854 INFO  main cluster - Cluster created with settings {hosts=[192.168.81.140:27017], mode=MULTIPLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2018-03-06 17:08:48,854 INFO  main cluster - Adding discovered server 192.168.81.140:27017 to client view of cluster
+2018-03-06 17:08:48,921 INFO  main MongoDBConn - Connect to database 'db1' successfully.
+2018-03-06 17:08:48,929 INFO  main Operation - Insert a new Document to collection 'db1.col1'.
+2018-03-06 17:08:48,940 INFO  main cluster - No server chosen by WritableServerSelector from cluster description ClusterDescription{type=UNKNOWN, connectionMode=MULTIPLE, serverDescriptions=[ServerDescription{address=192.168.81.140:27017, type=UNKNOWN, state=CONNECTING}]}. Waiting for 30000 ms before timing out
+2018-03-06 17:08:49,056 INFO  cluster-ClusterId{value='5a9e5aa01602ef37708e33de', description='null'}-192.168.81.140:27017 cluster - Exception in monitor thread while connecting to server 192.168.81.140:27017
+com.mongodb.MongoSecurityException: Exception authenticating MongoCredential{mechanism=SCRAM-SHA-1, userName='user1', source='db1', password=<hidden>, mechanismProperties={}}
+	at com.mongodb.connection.SaslAuthenticator.wrapInMongoSecurityException(SaslAuthenticator.java:157)
+	at com.mongodb.connection.SaslAuthenticator.access$200(SaslAuthenticator.java:37)
+	at com.mongodb.connection.SaslAuthenticator$1.run(SaslAuthenticator.java:66)
+	at com.mongodb.connection.SaslAuthenticator$1.run(SaslAuthenticator.java:44)
+	at com.mongodb.connection.SaslAuthenticator.doAsSubject(SaslAuthenticator.java:162)
+	at com.mongodb.connection.SaslAuthenticator.authenticate(SaslAuthenticator.java:44)
+	at com.mongodb.connection.InternalStreamConnectionInitializer.authenticateAll(InternalStreamConnectionInitializer.java:109)
+	at com.mongodb.connection.InternalStreamConnectionInitializer.initialize(InternalStreamConnectionInitializer.java:46)
+	at com.mongodb.connection.InternalStreamConnection.open(InternalStreamConnection.java:116)
+	at com.mongodb.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:113)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.mongodb.MongoCommandException: Command failed with error 18: 'Authentication failed.' on server 192.168.81.140:27017. The full response is { "ok" : 0.0, "errmsg" : "Authentication failed.", "code" : 18, "codeName" : "AuthenticationFailed" }
+	at com.mongodb.connection.CommandHelper.createCommandFailureException(CommandHelper.java:170)
+	at com.mongodb.connection.CommandHelper.receiveCommandResult(CommandHelper.java:123)
+	at com.mongodb.connection.CommandHelper.executeCommand(CommandHelper.java:32)
+	at com.mongodb.connection.SaslAuthenticator.sendSaslContinue(SaslAuthenticator.java:121)
+	at com.mongodb.connection.SaslAuthenticator.access$100(SaslAuthenticator.java:37)
+	at com.mongodb.connection.SaslAuthenticator$1.run(SaslAuthenticator.java:63)
+	... 8 more
+2018-03-06 17:11:31,820 INFO  main MongoDBConn - Will connect to mongo db by host192.168.81.140 port27017
+2018-03-06 17:11:33,116 INFO  main cluster - Cluster created with settings {hosts=[192.168.81.140:27017], mode=MULTIPLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2018-03-06 17:11:33,116 INFO  main cluster - Adding discovered server 192.168.81.140:27017 to client view of cluster
+2018-03-06 17:11:33,181 INFO  main MongoDBConn - Connect to database 'db1' successfully.
+2018-03-06 17:11:33,190 INFO  main Operation - Insert a new Document to collection 'db1.col1'.
+2018-03-06 17:11:33,200 INFO  main cluster - No server chosen by WritableServerSelector from cluster description ClusterDescription{type=UNKNOWN, connectionMode=MULTIPLE, serverDescriptions=[ServerDescription{address=192.168.81.140:27017, type=UNKNOWN, state=CONNECTING}]}. Waiting for 30000 ms before timing out
+2018-03-06 17:11:33,311 INFO  cluster-ClusterId{value='5a9e5b451602ef3a9848fca8', description='null'}-192.168.81.140:27017 connection - Opened connection [connectionId{localValue:1, serverValue:181}] to 192.168.81.140:27017
+2018-03-06 17:11:33,312 INFO  cluster-ClusterId{value='5a9e5b451602ef3a9848fca8', description='null'}-192.168.81.140:27017 cluster - Monitor thread successfully connected to server with description ServerDescription{address=192.168.81.140:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 7]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, roundTripTimeNanos=690589}
+2018-03-06 17:11:33,313 INFO  cluster-ClusterId{value='5a9e5b451602ef3a9848fca8', description='null'}-192.168.81.140:27017 cluster - Discovered cluster type of STANDALONE
+2018-03-06 17:11:33,337 INFO  main connection - Opened connection [connectionId{localValue:2, serverValue:182}] to 192.168.81.140:27017
+2018-03-06 17:11:33,373 INFO  main Operation - There are 3 in collection 'db1.col1'.
+2018-03-06 17:11:33,387 INFO  main Operation - There are 2 in collection 'db1.col1'.
+2018-03-06 17:11:33,388 INFO  main connection - Closed connection [connectionId{localValue:2, serverValue:182}] to 192.168.81.140:27017 because the pool has been closed.
+2018-03-06 17:11:33,389 INFO  main MongoDBConn - CloseMongoClient successfully

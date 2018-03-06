@@ -23,7 +23,7 @@ public class App {
     public static void main( String[] args ) {
         MongoDBConn conn = new MongoDBConn(DBConfig.getInstance());
         String collectionName = "col1";
-        MongoCollection<Document> coll = conn.getAllCollections(collectionName);
+        MongoCollection<Document> coll = conn.getCollection(collectionName);
         if (coll != null) {
             Operation operation = new Operation(coll);
             operation.insert();
