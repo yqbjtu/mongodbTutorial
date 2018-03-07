@@ -21,3 +21,6 @@ mongo -u "myUserAdmin" -p "abc123" --authenticationDatabase "admin"
 在启用auth之前，在mongo shell下面
 先switch到 db1 数据库。 命令use db1
 然后执行db.createUser({user: "user1", pwd: "passwd1", roles: [{role: "readWrite", db: "db1"}]})
+
+生成还有main class的jar
+mvn assembly:assembly

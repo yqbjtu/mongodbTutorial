@@ -29,7 +29,7 @@ public class MongoDBConn {
             // 连接到 mongodb 服务
             String host = dbCfg.getConfiguration(DBConstants.DB_HOST);
             String port = dbCfg.getConfiguration(DBConstants.DB_PORT);
-            log.info("Will connect to mongo db by host" + host + " port" + port);
+            log.info("Will connect to mongo db by host " + host + " port " + port);
 
             //连接到MongoDB服务 如果是远程连接可以替换“localhost”为服务器所在IP地址  
             //ServerAddress()两个参数分别为 服务器地址 和 端口  
@@ -57,10 +57,9 @@ public class MongoDBConn {
             else {
                 log.error("Can't connect to mongo db by host" + host + " port" + port);
             }
-
         }
         catch (Exception e) {
-            System.err.println("Connecting to database Failed. " + e.getMessage());
+            log.error("Connecting to database Failed. " + e.getMessage());
         }
     }
 

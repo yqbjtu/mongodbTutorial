@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.yq.mongo.common.DBConstants;
+
 
 public class DBConfig {
     //**************************************************************************
@@ -20,6 +22,9 @@ public class DBConfig {
 
     private DBConfig () {
         readDBConfiguration();
+        prop.putIfAbsent(DBConstants.DB_HOST, "127.0.0.1");
+        prop.putIfAbsent(DBConstants.DB_PORT, "27017");
+        prop.putIfAbsent(DBConstants.DB_NAME, "db1");
     }
 
     public static DBConfig getInstance() {
@@ -28,20 +33,22 @@ public class DBConfig {
 
     private void readDBConfiguration() {
         FileInputStream in;
-        try {
-            File file = new File(cfgFileName);
-            if (!file.exists()) {
-                log.warn(file.getAbsolutePath()  + " does not exist.'");
+        File file = new File(cfgFileName);
+        if (!file.exists()) {
+            log.warn(file.getAbsolutePath()  + " does not exist.'");
+        }
+        else {
+            try {
+                in = new FileInputStream(cfgFileName);
+                prop.load(in);
+                in.close();
             }
-            in = new FileInputStream(cfgFileName);
-            prop.load(in);
-            in.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -25,28 +25,34 @@ public class App {
         String collectionName = "col1";
         MongoCollection<Document> coll = conn.getCollection(collectionName);
         if (coll != null) {
-            Operation operation = new Operation(coll);
-            operation.insert();
-            List<String> idList = operation.getAllDocs();
+            Operation operation = new Operation();
+
+            Document document = new Document("title", "Java Core v9").
+                append("description", "guide for java9").
+                append("price", 100).
+                append("Author", "ericYang");
+            operation.insert(coll, document);
+
+            List<String> idList = operation.getAllDocs(coll);
             //we insert a doc, so idList has 1 element at least.
             String id = idList.get(0);
-            Document doc = operation.findById(id);
+            Document doc = operation.findById(coll, id);
             System.out.println("Find by id '" + id + ". Result:" + doc);
 
             Document newDoc = new Document("title", "JavaSE Core 9 ").
-            //原来有title， 我们相当于修改了title， 原来没有的sales volume，相当于添加老的新的field。
-            append("sales volume", "3000").
-            append("price", 100).
-            append("Author", "ericYang");
-            operation.updateById(id, newDoc);
-            doc = operation.findById(id);
+            //原来有title， 我们相当于修改了title， 原来没有的sales volume，相当于添加新的field。
+                append("sales volume", "3000").
+                append("price", 100).
+                append("Author", "ericYang");
+            operation.updateById(coll, id, newDoc);
+            doc = operation.findById(coll, id);
             System.out.println("Find by id '" + id + " after updating. Result:" + doc);
 
-            int count = operation.deleteById(id);
+            int count = operation.deleteById(coll, id);
             System.out.println("delete by id '" + id + "'. AffectedRowCount:" + count);
 
             System.out.println("Show all docs");
-            operation.getAllDocs();
+            operation.getAllDocs(coll);
 
             conn.closeMongoClient();
         }

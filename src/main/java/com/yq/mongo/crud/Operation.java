@@ -19,29 +19,21 @@ public class Operation {
     // CLASS
     //**************************************************************************
     private static final Logger log = Logger.getLogger(Operation.class);
-    private MongoCollection<Document> coll = null;
 
-    public Operation(MongoCollection<Document> collection) {
-        this.coll = collection;
+    public Operation() {
     }
 
-    public void insert() {
+    public void insert(MongoCollection<Document> coll, Document document) {
         if (coll != null) {
             log.info("Insert a new Document to collection '" + coll.getNamespace().getFullName()+ "'.");
-            Document document = new Document("title", "Java Core v9").
-            append("description", "guide for java9").
-            append("price", 100).
-            append("Author", "ericYang");
-            List<Document> documents = new ArrayList<Document>();
-            documents.add(document);
-            coll.insertMany(documents);
+            coll.insertOne(document);
         }
         else {
             log.error("there is no valid collection");
         }
     }
 
-    public List<String> getAllDocs() {
+    public List<String> getAllDocs(MongoCollection<Document> coll) {
         /*检索所有文档  
         /** 
         * 1. 获取迭代器FindIterable<Document> 
@@ -65,7 +57,7 @@ public class Operation {
         return idList;
     }
 
-    public Document updateById(String id, Document newdoc) {
+    public Document updateById(MongoCollection<Document> coll, String id, Document newdoc) {
         ObjectId _idobj = null;
         try {
             _idobj = new ObjectId(id);
@@ -78,7 +70,7 @@ public class Operation {
         return newdoc;
     }
 
-    public int deleteById(String id) {
+    public int deleteById(MongoCollection<Document> coll, String id) {
         int count = 0;
         ObjectId _id = null;
         try {
@@ -93,7 +85,7 @@ public class Operation {
         return count;
     }
 
-    public Document findById(String id) {
+    public Document findById(MongoCollection<Document> coll, String id) {
         ObjectId _idobj = null;
         try {
             _idobj = new ObjectId(id);
