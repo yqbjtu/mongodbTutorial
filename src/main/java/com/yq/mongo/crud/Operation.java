@@ -8,6 +8,8 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -32,7 +34,9 @@ public class Operation {
             log.error("there is no valid collection");
         }
     }
-
+    /*
+     * To count the number of documents in a collection, you can use the collection’s count() method.
+     */
     public List<String> getAllDocs(MongoCollection<Document> coll) {
         /*检索所有文档  
         /** 
@@ -42,9 +46,30 @@ public class Operation {
         * */
         List<String> idList = new ArrayList<String>();
         if (coll != null) {
-            FindIterable<Document> findIterable = coll.find();
+            FindIterable<Document> findIterable = coll.find(); ////SELECT * FROM coll;
             MongoCursor<Document> mongoCursor = findIterable.iterator();
 
+            while(mongoCursor.hasNext()){
+                Document doc = mongoCursor.next();
+                System.out.println(doc.toJson());
+                //System.out.println(doc);
+                ObjectId id =doc.getObjectId("_id");  
+                idList.add(id.toString());
+            }
+            log.info("There are " + coll.count() + " in collection '" + coll.getNamespace().getFullName()+ "'.");
+        }
+
+        return idList;
+    }
+    /*
+     * By default, queries in MongoDB return all fields in matching documents. 
+     * To specify the fields to return in the matching documents, you can specify a projection document.
+     */
+    public List<String> querySpecifiedFields(MongoCollection<Document> coll, Document fields) {
+        List<String> idList = new ArrayList<String>();
+        if (coll != null) {
+            FindIterable<Document> findIterable = coll.find().projection(fields);
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
             while(mongoCursor.hasNext()){
                 Document doc = mongoCursor.next();
                 System.out.println(doc);
@@ -54,9 +79,11 @@ public class Operation {
             log.info("There are " + coll.count() + " in collection '" + coll.getNamespace().getFullName()+ "'.");
         }
 
+        //projection Document which specifies that the matching documents return only the name field, stars field, and the categories field.
+
         return idList;
     }
-
+    
     public Document updateById(MongoCollection<Document> coll, String id, Document newdoc) {
         ObjectId _idobj = null;
         try {
@@ -94,6 +121,20 @@ public class Operation {
             return null;
         }
         Document myDoc = coll.find(Filters.eq("_id", _idobj)).first();
+
         return myDoc;
+    }
+    
+    private static void createArrayField(DBCollection coll) {
+        BasicDBObject testObject = new BasicDBObject();
+
+        testObject.put("suitename", "testsuite");
+        testObject.put("testname", "testcase");
+        List<BasicDBObject> milestones = new ArrayList<BasicDBObject>();
+        milestones.add(new BasicDBObject("milestone_id", "2333"));
+        milestones.add(new BasicDBObject("milestone_id", "2334"));
+        testObject.put("milestones", milestones);
+        coll.insert(testObject);
+
     }
 }
