@@ -48,6 +48,8 @@ public class MongoDBConn {
             credentials.add(credential);  
 
             //通过连接认证获取MongoDB连接  
+            //MongoClientURI uri = new MongoClientURI("mongodb://user1:pwd1@host1/?authSource=db1");
+            //MongoClient mongoClient = new MongoClient(uri);
             mongoClient = new MongoClient(addrs,credentials);  
 
             // 连接到数据库

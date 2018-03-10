@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
@@ -18,6 +16,8 @@ import com.yq.mongo.config.DBConfig;
 import com.yq.mongo.conn.MongoDBConn;
 import com.yq.mongo.crud.Operation;
 
+// you can use eq or gte
+//import static com.mongodb.client.model.Filters.*;
 /**
  * Hello world!
  *
@@ -33,6 +33,20 @@ public class App {
         String collectionName = "col1";
         MongoCollection<Document> coll = conn.getCollection(collectionName);
         if (coll != null) {
+            //db.runCommand( { buildInfo: 1 } )
+            //db.adminCommand( { listDatabases: 1 } )
+            Document buildInfoResults = conn.getDB().runCommand(new Document("buildInfo", 1));
+            log.info("buildInfo:" + buildInfoResults.toJson());
+
+            //https://docs.mongodb.com/manual/reference/command/
+            //Document("db.col1.find()", 1))  can't work
+            Document isMasterResults = conn.getDB().runCommand(new Document("isMaster", 1));
+            log.info("isMasterResults:" + isMasterResults.toJson());
+
+            //db.runCommand({find: "col1"})
+            Document findResults = conn.getDB().runCommand(new Document("find", "col1"));
+            log.info("findResults:" + findResults.toJson());
+
             Operation operation = new Operation();
 
             Document document = new Document("title", "Java Core v9")
@@ -112,7 +126,8 @@ public class App {
 
     public void queryAndSort(MongoCollection<Document> coll) {
        Document findQuery = new Document("id", new Document("$gte",6));
-       Document orderBy = new Document("price", 1);
+       //"price", 1 表示按照price升序， -1表示降序
+       Document orderBy = new Document("price", -1);
 
        System.out.println("order by price");
        MongoCursor<Document> cursor = coll.find(findQuery).sort(orderBy).iterator();
