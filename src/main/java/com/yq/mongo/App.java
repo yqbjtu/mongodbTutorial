@@ -8,8 +8,11 @@ import org.apache.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.mongodb.Block;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.yq.mongo.config.DBConfig;
@@ -27,6 +30,12 @@ public class App {
     // CLASS
     //**************************************************************************
     private static final Logger log = Logger.getLogger(App.class);
+    
+    Block<Document> printBlock = new Block<Document>() {
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+    };
 
     public static void main( String[] args ) {
         MongoDBConn conn = new MongoDBConn(DBConfig.getInstance());
@@ -51,6 +60,8 @@ public class App {
 
             Document document = new Document("title", "Java Core v9")
                 .append("description", "guide for java9")
+                .append("category", "book")
+                .append("id", 99)
                 .append("price", 100.65)
                 .append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
                 .append("isPublished", true)
@@ -60,6 +71,7 @@ public class App {
             for (int i=0; i < 2; i++) {
                 Document doc = new Document("id", i)
                     .append("description", "doc array demo")
+                    //.append("category", "book")
                     .append("text", "test only");
                 docList.add(doc);
             }
@@ -95,6 +107,7 @@ public class App {
             App app = new App();
             app.insertMany(coll);
             app.queryAndSort(coll);
+            app.aggregateDemo(coll);
 
             System.out.println("Show all docs");
             operation.getAllDocs(coll);
@@ -112,6 +125,7 @@ public class App {
             Document doc = new Document("id", i)
                 .append("description", "doc demo")
                 .append("index", 100 -i)
+                .append("category", "video")
                 .append("price", i + 10);
             docList.add(doc);
         }
@@ -142,4 +156,22 @@ public class App {
            cursor.close();
        }
     }
+
+    public void aggregateDemo(MongoCollection<Document> coll) {
+        //select category, count(*) as count from `col1` group by category and id >=0;
+        //AggregateIterable<Document>
+        System.out.println("aggregate query");
+        coll.aggregate(
+            Arrays.asList(
+                    Aggregates.match(Filters.gte("id", 0)),
+                    Aggregates.group("$category", Accumulators.sum("count", 1))
+            )
+          ).forEach(printBlock);
+        
+        /*
+         * { "_id" : "video", "count" : 10 }
+           { "_id" : "book", "count" : 1 }
+         */
+    }
+
 }
