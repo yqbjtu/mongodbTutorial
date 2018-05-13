@@ -24,7 +24,7 @@ public class DBConfig {
         readDBConfiguration();
         prop.putIfAbsent(DBConstants.DB_HOST, "127.0.0.1");
         prop.putIfAbsent(DBConstants.DB_PORT, "27017");
-        prop.putIfAbsent(DBConstants.DB_NAME, "db1");
+        prop.putIfAbsent(DBConstants.DB_NAME, "db01");
     }
 
     public static DBConfig getInstance() {

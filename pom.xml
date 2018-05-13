@@ -70,7 +70,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.yq.mongo.App</mainClass>
+                            <mainClass>com.yq.mongo.MongoApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
