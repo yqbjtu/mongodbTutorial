@@ -2,9 +2,11 @@
 
 package com.yq.runner;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yq.dao.CustomerRepository;
 import com.yq.domain.Customer;
 import com.yq.domain.Person;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Component;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Update.update;
 import static org.springframework.data.mongodb.core.query.Query.query;
+
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -94,6 +98,15 @@ public class MyAppRunner implements ApplicationRunner {
         }
 
         savePerson();
+
+        //Document msg, String collectionName
+        Document document = new Document();
+        document.put("userId","u001");
+        document.put("devId","dev001");
+        document.put("timestamp",new Date());
+        document.put("desc","my mongo insert testing");
+        String collectionName = "AuditCol";
+        mongoTemplate.insert(document, collectionName);
     }
 
     void savePerson() {
