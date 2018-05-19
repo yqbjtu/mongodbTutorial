@@ -46,8 +46,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping(value = "/mongo")
 public class MongoReadWriteController {
-    @Autowired
-    private CustomerRepository repository;
+
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -108,6 +107,7 @@ public class MongoReadWriteController {
             query.addCriteria(Criteria.where("timestamp").lte(endDate));
         }
 
+        //query.addCriteria(Criteria.where("length").in(listOfLength));
         query.with(new Sort(Sort.Direction.DESC, "timestamp"));
 
         long totalCount = mongoTemplate.count(query, Document.class, collectionName);
@@ -120,7 +120,7 @@ public class MongoReadWriteController {
         return jsonObj.toJSONString();
     }
 
-    @ApiOperation(value = "queryByQueryBuilder ")
+    @ApiOperation(value = "QueryBuilder", tags="aaa")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "collectionName",  value = "collectionName", defaultValue = "col01", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "content", defaultValue = "", value = "equal,", required = false, dataType = "string", paramType = "query"),
@@ -140,6 +140,7 @@ public class MongoReadWriteController {
         //db.getCollection('AuditCol').find({"content":"testing"})
         //queryBuilder.or(new BasicDBObject("desc",desc), new BasicDBObject("content",content));
         queryBuilder.and(new BasicDBObject("desc",desc), new BasicDBObject("content",content));
+
         Query query = new BasicQuery(queryBuilder.get());
 
         query.with(new Sort(Sort.Direction.DESC, "timestamp"));
@@ -161,7 +162,7 @@ public class MongoReadWriteController {
         return jsonObj.toJSONString();
     }
 
-    @ApiOperation(value = "qBasicQuery可以直接写query（json格式）")
+    @ApiOperation(value = "BasicQuery可以直接写query（json格式）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "collectionName",  value = "collectionName", defaultValue = "col01", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "queryJsonStr", defaultValue = "{ \"length\" : {$lt :210, $gt : 100}}", value = " { \"length\" :{$gt : 100}}", required = false, dataType = "string", paramType = "query")
@@ -172,6 +173,8 @@ public class MongoReadWriteController {
         logger.info("Enter queryMongo collectionName={}, queryJsonStr={}", collectionName, queryJsonStr );
 
         //查询条件content="002"
+        //BasicQuery query1 = new BasicQuery("{ age : { $lt : 40 }, name : 'cat' }");
+//        User userTest1 = mongoTemplate.findOne(query1, User.class);
         Query query = new BasicQuery(queryJsonStr);
         query.with(new Sort(Sort.Direction.DESC, "timestamp"));
 

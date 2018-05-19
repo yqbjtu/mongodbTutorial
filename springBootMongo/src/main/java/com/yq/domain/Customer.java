@@ -8,16 +8,19 @@ package com.yq.domain;
  * @author EricYang
  * @version 2018/5/13 19:14
  */
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-
+@Data
 public class Customer {
 
     @Id
-    public String id;
+    private String id;
 
-    public String firstName;
-    public String lastName;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private long memberPoints;
 
     public Customer() {}
 
@@ -29,8 +32,8 @@ public class Customer {
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%s, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+                "Customer[id=%s, firstName='%s', lastName='%s',age='%d',memberPoints='%d']",
+                id, firstName, lastName, age, memberPoints);
     }
 
     public String getId() {
