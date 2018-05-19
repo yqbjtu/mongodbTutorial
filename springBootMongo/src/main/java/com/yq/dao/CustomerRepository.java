@@ -4,9 +4,11 @@ package com.yq.dao;
 import com.yq.domain.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CustomerRepository extends MongoRepository<Customer, String> {
 
     public List<Customer> findByFirstName(String firstName);
@@ -21,6 +23,7 @@ public interface CustomerRepository extends MongoRepository<Customer, String> {
     @Query("{ $or:[ { 'firstName' : { $regex: ?0 } }, { 'lastName' : { $regex: ?0 } }] }")
     List<Customer> myfindCustomerByRegexName(String regex);
 
+    // @Query(value="{ 'firstname' : ?0 }", fields="{ 'firstname' : 1, 'lastname' : 1}")
     List<Customer> findByFirstNameLikeOrderByAgeAsc(String regex);
 
     public List<Customer> findByAgeBetween(int ageGT, int ageLT);

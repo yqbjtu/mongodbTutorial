@@ -1,8 +1,10 @@
 package com.yq.domain;
 
 
+import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /*
  * because we use typeAlias, so in the collection person, its data is like this. class is 'pers', not 'hello.entity.Customer.
@@ -11,7 +13,9 @@ import org.springframework.data.annotation.TypeAlias;
 >
  */
 @TypeAlias("pers")
-public class Person {
+@Document
+@QueryEntity
+public class User {
 
     @Id
     private String id;
@@ -19,7 +23,7 @@ public class Person {
     private String name;
     private int age;
 
-    public Person(String name, int age) {
+    public User(String name, int age) {
         this.name = name;
         this.age = age;
     }
@@ -36,7 +40,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person [id=" + id + ", name=" + name + ", age=" + age + "]";
+        return "User [id=" + id + ", name=" + name + ", age=" + age + "]";
     }
 
 }

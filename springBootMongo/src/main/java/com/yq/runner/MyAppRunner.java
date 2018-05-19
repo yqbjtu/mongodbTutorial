@@ -2,10 +2,9 @@
 
 package com.yq.runner;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yq.dao.CustomerRepository;
 import com.yq.domain.Customer;
-import com.yq.domain.Person;
+import com.yq.domain.User;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,29 +108,29 @@ public class MyAppRunner implements ApplicationRunner {
         mongoTemplate.insert(document, collectionName);
     }
 
-    void savePerson() {
+    private void savePerson() {
         MongoOperations mongoOps = mongoTemplate;
 
-        Person person = new Person("ZhangSan", 24);
+        User user = new User("ZhangSan", 24);
 
         // Insert is used to initially store the object into the database.
-        mongoOps.insert(person);
-        log.info("Insert: " + person);
+        mongoOps.insert(user);
+        log.info("Insert: " + user);
 
         // Find
-        person = mongoOps.findById(person.getId(), Person.class);
-        log.info("FoundZhangSan: " + person);
+        user = mongoOps.findById(user.getId(), User.class);
+        log.info("FoundZhangSan: " + user);
 
-        person = new Person("LiSi", 50);
-        mongoOps.insert(person, "person2");
-        log.info("Insert: " + person);
+        user = new User("LiSi", 50);
+        mongoOps.insert(user, "person2");
+        log.info("Insert: " + user);
 
         // Find
-        Person personLiSi1 = mongoOps.findById(person.getId(), Person.class);
-        log.info("FoundLiSi by default collection: " + personLiSi1);
+        User personLiSi1 = mongoOps.findById(user.getId(), User.class);
+        log.info("Found LiSi by default collection: " + personLiSi1);
 
-        Person personLiSi2 = mongoOps.findById(person.getId(), Person.class, "person2");
-        log.info("FoundLiSi by collection person2: " + personLiSi2);
+        User personLiSi2 = mongoOps.findById(user.getId(), User.class, "person2");
+        log.info("Found LiSi by collection person2: " + personLiSi2);
     }
 
 
