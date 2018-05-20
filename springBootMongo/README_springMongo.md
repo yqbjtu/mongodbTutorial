@@ -3,6 +3,9 @@ personal mongodb learning note
 
 http://127.0.0.1:8080/swagger-ui.html
 
+取消存储到collection中的_class字段
+https://github.com/eugenp/tutorials/blob/master/spring-data-mongodb/src/main/java/org/baeldung/converter/UserWriterConverter.java
+
 java driver website http://mongodb.github.io/mongo-java-driver/
 在非认证模式的时候，添加了如下用户
 use admin
