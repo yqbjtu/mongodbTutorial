@@ -63,7 +63,56 @@ public class UserController {
         return jsonObj.toJSONString();
     }
 
+    @ApiOperation(value = "usersByNameAndAge ", tags="tag1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", defaultValue = "Tom Hanks", value = "name", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "age", defaultValue = "35", value = "age", required = true, dataType = "int", paramType = "query")
+    })
+    @GetMapping(value = "/usersByNameAndAge", produces = "application/json;charset=UTF-8")
+    public String usersByNameAndAge(@RequestParam String name, @RequestParam Integer age) {
+        logger.info("Enter customersByFirstName name={}", name);
 
+        QUser qUser = new QUser("user");
+        Predicate nameAndAge = qUser.name.eq(name).and(qUser.age.eq(age));
+        Iterable<User> users = userRepository.findAll(nameAndAge);
+
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("currentTime", LocalDateTime.now().toString());
+        jsonObj.put("totalCount", users.toString());
+        jsonObj.put("docList", users);
+        return jsonObj.toJSONString();
+    }
+
+    @ApiOperation(value = "usersByAgeBetween ", tags="tag1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "minAge", defaultValue = "20", value = "minAge", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "maxAge", defaultValue = "40", value = "maxAge", required = true, dataType = "int", paramType = "query")
+    })
+    @GetMapping(value = "/usersByAgeBetween", produces = "application/json;charset=UTF-8")
+    public String usersByAgeBetween(@RequestParam Integer minAge, @RequestParam Integer maxAge) {
+        logger.info("Enter usersByAgeBetween minAge={}, maxAge={}", minAge, maxAge);
+
+        QUser qUser = new QUser("user");
+        Predicate predicate = qUser.age.between(minAge, maxAge);
+        Iterable<User> users = userRepository.findAll(predicate);
+
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("currentTime", LocalDateTime.now().toString());
+        jsonObj.put("totalCount", users.toString());
+        jsonObj.put("docList", users);
+        return jsonObj.toJSONString();
+    }
+
+    /*
+    Pageable pageable = PageRequest.of(0,5);
+    Page<SysOrg> orgList = userRepository.findAll(predicate,pageable);
+
+    Predicate predicate = qSysOrg.orgCode.startsWith("tx");
+OrderSpecifier orderSpecifier = qSysOrg.orgCode.asc();
+
+List<SysOrg> orgList = (List<SysOrg>)userRepository.findAll(predicate,orderSpecifier);
+SysOrg org = (SysOrg) orgList.get(0);
+     */
     @ApiOperation(value = "delete all users", tags="tag1")
     @DeleteMapping(value = "/users", produces = "application/json;charset=UTF-8")
     public String deleteAll() {

@@ -99,18 +99,20 @@ public class MyAppRunner implements ApplicationRunner {
         savePerson();
 
         //Document msg, String collectionName
-        Document document = new Document();
-        document.put("userId","u001");
-        document.put("devId","dev001");
-        document.put("timestamp",new Date());
-        document.put("desc","my mongo insert testing");
-        String collectionName = "AuditCol";
-        mongoTemplate.insert(document, collectionName);
+//        Document document = new Document();
+//        document.put("userId","u001");
+//        document.put("devId","dev001");
+//        document.put("timestamp",new Date());
+//        document.put("desc","my mongo insert testing");
+//        String collectionName = "AuditCol";
+//        mongoTemplate.insert(document, collectionName);
     }
 
     private void savePerson() {
         MongoOperations mongoOps = mongoTemplate;
 
+        mongoOps.dropCollection(User.class);
+        log.info("delete all row from collection user.");
         User user = new User("ZhangSan", 24);
 
         // Insert is used to initially store the object into the database.
